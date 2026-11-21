@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: doctor-tracker-web
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # The browser calls the website's own /api/v1, which Next forwards to the API.
+      - key: NEXT_PUBLIC_API_URL
+        value: /api/v1
+      # Paste the API's URL when Render asks, e.g. https://doctor-tracker-api.onrender.com
+      - key: API_PROXY_URL
+        sync: false
