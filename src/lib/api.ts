@@ -2,8 +2,13 @@ import type { ApiEnvelope, ApiErrorPayload } from "./types";
 
 export type { ApiEnvelope };
 
+// Production defaults to the same-origin /api/v1 path (forwarded to the API by
+// next.config.ts) so a missing env var never sends visitors to localhost.
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NODE_ENV === "production"
+    ? "/api/v1"
+    : "http://localhost:4000/api/v1");
 
 export class ApiError extends Error {
   readonly status: number;
